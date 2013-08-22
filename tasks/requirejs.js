@@ -204,6 +204,9 @@ module.exports = function(grunt) {
           // Wrap everything in an IIFE.
           wrap: true,
 
+          // Jam configuration path.
+          jamConfig: "vendor/jam/require.config.js",
+
           // Output file.
           out: "dist/source.min.js",
 
@@ -251,6 +254,11 @@ module.exports = function(grunt) {
             return wrapped;
           }
         });
+
+        // Merge in the Jam configuration.
+        if (grunt.file.exists(options.jamConfig)) {
+          _.extend(options, nodeRequire(process.cwd() + "/" + options.jamConfig));
+        }
 
         // Only log the options during verbose mode.
         grunt.verbose.writeflags(options, "Options");
